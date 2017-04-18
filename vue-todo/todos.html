@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>任务计划列表</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
 	<script src="./vue.js"></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
 		<h3 class="big-title">添加任务</h3>
 		<input v-on:keyup.enter="addTodo" v-model="todo" type="text" class="task-input" placeholder="例如：吃饭睡觉打豆豆">
 		<ul class="task-count" v-show="list.length">
-			<li>1个任务未完成</li>
+			<li>{{ noChecklength }}个任务未完成</li>
 			<li class="action">
 				<a href="#" class="active">所有任务</a>
 				<a href="#" >未完成的任务</a>
@@ -26,13 +27,20 @@
 		<div class="tasks">
 			<span class="no-task-tip" v-show="!list.length">Not add task</span>
 			<ul class="todo-list">
-				<li class="todo" :class="{completed:item.isChecked}" v-for="item in list" >
+				<li class="todo" :class="{completed:item.isChecked,editing:item === edit}" v-for="item in list" >
 					<div class="view">
 						<input type="checkbox" class="toggle" v-model="item.isChecked" />
-						<label>{{ item.title }}</label>
+						<label @dblclick="editTodo(item)">{{ item.title }}</label>
 						<button class="destroy" v-on:click="deleteTodo(item)"></button>
 					</div>
-					<input class="edit" type="text">
+					<input 
+						v-focus="item === edit" 
+						class="edit" type="text" 
+						v-model="item.title"
+						v-on:blur="editTodoed(item)" 
+						v-on:keyup.13="editTodoed(item)"
+						v-on:keyup.esc="cancelTodo(item)"
+					/>
 				</li>
 			</ul>
 		</div>
