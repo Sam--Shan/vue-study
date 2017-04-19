@@ -18,6 +18,22 @@ var storage = {
 		isChecked:true
 	}
 ];*/
+var filter = {
+				all:function(list){
+					return list;
+				},
+				finished:function(list){
+					return list.filter(function(item){
+						return item.isChecked;
+					})
+				},
+				unfinished:function(list){
+					return list.filter(function(item){
+						return !item.isChecked;
+					})
+				}
+			}
+
 var list = storage.fetch("maiduo");
 
 var vm = new Vue({
@@ -36,22 +52,7 @@ var vm = new Vue({
 			}).length
 		},
 		filterList:function(){
-			var filter = {
-				all:function(list){
-					return list;
-				},
-				finished:function(list){
-					return list.filter(function(item){
-						return item.isChecked;
-					})
-				},
-				unfinished:function(list){
-					return list.filter(function(item){
-						return !item.isChecked;
-					})
-				}
-			}
-			return filter[this.visibility](list);
+			return filter[this.visibility] ? filter[this.visibility](list) : list;
 		}
 	},
 	watch:{
