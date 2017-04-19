@@ -1,4 +1,14 @@
-var list = [
+//存取localStorage中的数据
+var storage = {
+	save(key,value){
+		localStorage.setItem(key,JSON.stringify(value));
+	},
+	fetch(key){
+		return JSON.parse(localStorage.getItem(key)) || [];
+	}
+}
+
+/*var list = [
 	{
 		title: "First task",
 		isChecked:false
@@ -7,21 +17,52 @@ var list = [
 		title: "Second task",
 		isChecked:true
 	}
-];
+];*/
+var list = storage.fetch("maiduo");
 
-new Vue({
+var vm = new Vue({
 	el:".main",
 	data:{
 		list:list,
 		todo:"",
 		edit:"",    //记录正在编辑的数据
-		beforeTitle:""
+		beforeTitle:"",
+		visibility: 'all'
 	},
 	computed:{
 		noChecklength:function(){
 			return this.list.filter(function(item){
 				return !item.isChecked;
 			}).length
+		},
+		filterList:function(){
+			var filter = {
+				all:function(list){
+					return list;
+				},
+				finished:function(list){
+					return list.filter(function(item){
+						return item.isChecked;
+					})
+				},
+				unfinished:function(list){
+					return list.filter(function(item){
+						return !item.isChecked;
+					})
+				}
+			}
+			return filter[this.visibility](list);
+		}
+	},
+	watch:{
+		/*list:function(){
+			storage.save("maiduo",this.list);
+		}*/
+		list:{
+			handler:function(){
+				storage.save("maiduo",this.list);
+			},
+			deep:true
 		}
 	},
 	methods:{
@@ -63,3 +104,10 @@ new Vue({
 		}
 	}
 });
+
+function watchHashChange(){
+	var hash = window.location.hash.slice(1);
+	vm.visibility = hash;
+}
+watchHashChange();
+window.addEventListener("hashchange",watchHashChange);

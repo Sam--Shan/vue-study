@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>任务计划列表</title>
-	<link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<script src="./vue.js"></script>
 </head>
 <body>
@@ -20,9 +20,9 @@
 		<ul class="task-count list-inline" v-show="list.length">
 			<li>{{ noChecklength }}个任务未完成</li>
 			<li class="action">
-				<a href="#" class="active">所有任务</a>
-				<a href="#" >未完成的任务</a>
-				<a href="#" >已完成的任务</a>
+				<a href="#all" class="active">所有任务</a>
+				<a href="#unfinished" >未完成的任务</a>
+				<a href="#finished" >已完成的任务</a>
 			</li>
 		</ul>
 		<blockquote>
@@ -31,11 +31,11 @@
 		<div class="tasks">
 			<span class="no-task-tip" v-show="!list.length">Not add task</span>
 			<ul class="todo-list list-unstyled">
-				<li class="todo" :class="{completed:item.isChecked,editing:item === edit}" v-for="item in list" >
+				<li class="todo" :class="{completed:item.isChecked,editing:item === edit}" v-for="item in filterList" >
 					<div class="view">
 						<input type="checkbox" class="toggle " v-model="item.isChecked" />
 						<label @dblclick="editTodo(item)">{{ item.title }}</label>
-						<button class="destroy btn btn-primary" v-on:click="deleteTodo(item)">delete</button>
+						<button class="destroy" v-on:click="deleteTodo(item)"><i class="glyphicon glyphicon-remove"></i></button>
 					</div>
 					<input 
 						v-focus="item === edit" 
