@@ -1,0 +1,32 @@
+*{
+  padding: 0px;
+  margin: 0px;
+}
+#app h2{
+  text-align: center;
+}
+.warp{
+  width:300px;
+  height: 200px;
+  margin:0 auto
+}
+.clearFix{
+  clear: both;
+}
+.list{
+  width: 173px;
+  background-color: #345;
+  border-radius: 5px;
+}
+.list li{
+  color: #fff;
+  list-style: none;
+  display: block;
+  height: 20px;
+  width: 173px;
+}
+.list li:hover{
+  color: #333;
+  background: #fff;
+  border-radius: 5px;
+}
