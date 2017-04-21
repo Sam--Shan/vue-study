@@ -16,6 +16,7 @@ html body{
 .task-count li a{
 	margin-right: 30px;
 	text-decoration: none;
+	color: #333;
 }
 .completed{
 	text-decoration: line-through;
@@ -44,4 +45,9 @@ html body{
 .destroy{
 	position: absolute;
 	right: 90px;
+}
+.active{
+	background-color: #5EA26B;
+	padding: 2px;
+	border-radius: 2px
 }

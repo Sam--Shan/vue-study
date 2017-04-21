@@ -20,9 +20,9 @@
 		<ul class="task-count list-inline" v-show="list.length">
 			<li>{{ noChecklength }}个任务未完成</li>
 			<li class="action">
-				<a href="#all" class="active">所有任务</a>
-				<a href="#unfinished" >未完成的任务</a>
-				<a href="#finished" >已完成的任务</a>
+				<a href="#all" v-bind:class="{active:visibility === 'all'}">所有任务</a>
+				<a href="#unfinished" v-bind:class="{active:visibility === 'unfinished'}" >未完成的任务</a>
+				<a href="#finished" v-bind:class="{active:visibility === 'finished'}" >已完成的任务</a>
 			</li>
 		</ul>
 		<blockquote>
@@ -37,12 +37,12 @@
 						<label @dblclick="editTodo(item)">{{ item.title }}</label>
 						<button class="destroy" v-on:click="deleteTodo(item)"><i class="glyphicon glyphicon-remove"></i></button>
 					</div>
-					<input 
-						v-focus="item === edit" 
-						class="edit form-control" 
-						type="text" 
+					<input
+						v-focus="item === edit"
+						class="edit form-control"
+						type="text"
 						v-model="item.title"
-						v-on:blur="editTodoed(item)" 
+						v-on:blur="editTodoed(item)"
 						v-on:keyup.13="editTodoed(item)"
 						v-on:keyup.esc="cancelTodo(item)"
 					/>

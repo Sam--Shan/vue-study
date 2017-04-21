@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="vue.js" charset="utf-8"></script>
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>custom select</h2>
+      <custom-select btn-value="search" v-bind:list="list1"></custom-select>
+      <h2>custom select2</h2>
+      <custom-select btn-value="search2" v-bind:list="list2"></custom-select>
+    </div>
+    <script type="text/javascript">
+    Vue.component("custom-select",{
+      data:function(){
+        return {
+          selectShow:false,
+          val:""
+        }
+      },
+      props:["btnValue","list"],
+      template:`<section class="warp">
+                  <div class="searchIpt clearFix">
+                    <div class="clearFix">
+                      <input type="text" class="keyWord" v-bind:value="val" v-on:click="selectShow=!selectShow">
+                      <input type="button" v-bind:value="btnValue">
+                      <span></span>
+                    </div>
+                    <custom-list v-show="selectShow" v-bind:list="list" v-on:receive="changeValueHandle"></custom-list>
+                  </div>
+              </section>`,
+      methods:{
+        changeValueHandle:function(value){
+          this.val = value;
+        }
+      }
+    });
+    Vue.component("custom-list",{
+      props:["list"],
+      template:`<ul class="list">
+                  <li v-for="item of list" v-on:click="selectValueHandle(item)">{{ item }}</li>
+              </ul>`,
+      methods:{
+        selectValueHandle:function(item){
+          this.$emit("receive",item);
+        }
+      }
+    })
+
+      new Vue({
+        el:"#app",
+        data:{
+          list1:["Beijing","Shanghai","Hangzhou"],
+          list2:["17-04-20","17-04-21","17-04-22"]
+        }
+      })
+    </script>
+  </body>
+</html>
